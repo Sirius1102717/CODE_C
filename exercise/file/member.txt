@@ -1,0 +1,6 @@
+1       trump     73
+2	mbg	  69
+3	biden	  78
+4	wang	  19
+5	xiao	  21
+

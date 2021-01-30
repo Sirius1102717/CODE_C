@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/arendelle/CODE_C/Data Structure/Tree/build",
+  "command": "/usr/bin/c++   -I/home/arendelle/CODE_C/libs    -o CMakeFiles/Signal.dir/Signal.cpp.o -c \"/home/arendelle/CODE_C/Data Structure/Tree/Signal.cpp\"",
+  "file": "/home/arendelle/CODE_C/Data Structure/Tree/Signal.cpp"
+}
+]

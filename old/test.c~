@@ -1,0 +1,310 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+int UserNumber = 1;
+typedef struct user{
+    int num;
+    char name[20];
+    char serName[20];
+    struct user *next;
+}USER;
+USER *userTail = NULL;
+
+USER *userLoad(USER *userHead){
+    FILE *fp = fopen("user.txt","r");
+    USER *node = NULL;
+    int num;
+    char name[20] = {0},serName[20] = {0};
+    userHead = (USER *)malloc(sizeof(USER));
+    userTail = userHead;
+    while (fscanf(fp,"%d%s%s",&num,name,serName) != EOF){
+        node = (USER *)malloc(sizeof(USER));
+        node->num = num;
+        strcpy(node->name,name);
+        strcpy(node->serName,serName);
+        printf("%d %s %s\n",node->num,node->name,node->serName);
+        node->next = NULL;
+        userTail->next = node;
+        userTail = node;
+        memset(name,0,sizeof(char) * 20);
+        memset(serName,0,sizeof(char) * 20);
+        UserNumber++;
+    }
+    node = userHead->next;
+    fclose(fp);
+    return userHead;
+
+}
+
+void userInsert(USER **userEnd,USER *newNode){
+    (*userEnd)->next = newNode;
+    *userEnd = newNode;
+}
+
+USER *userCreate(USER *userHead){
+    USER *node;
+    char name[20] = {0};
+    FILE *fp = fopen("user.txt","a+");
+    userHead = (USER *)malloc(sizeof(USER));
+    userTail = userHead;
+    printf("Press EOF to end input\n");
+    printf("Please input the name:");
+    while(scanf("%s",name) != EOF){
+        node = (USER *)malloc(sizeof(USER));
+        strcpy(node->name,name);
+        printf("Please input the service member name:");
+        scanf("%s",node->serName);
+        node->num = UserNumber;
+        printf("%d %s %s\n",node->num,node->name,node->serName);
+        fprintf(fp,"%-10d%-10s%-10s\n",node->num,node->name,node->serName);
+        UserNumber++;
+        node->next = NULL;
+        userInsert(&userTail,node);
+        memset(name,0,sizeof(char) * 20);
+        printf("Press the EOF to end input\n");
+        printf("please input the name:");
+    }
+    if(UserNumber == 1)
+        node = userHead->next;
+    fclose(fp);
+    return userHead;
+}
+
+USER *userNumSearch(USER *userHead,int num){
+    USER *p;
+    p = userHead;
+    while(p->next && p->next->num != num){
+        p = p->next;
+    }
+    if(p->next->num == num)
+        return p;
+    else
+        perror("error search\n");
+}
+
+USER *userNameSearch(USER *userHead,char name[]){
+    USER *p = userHead;
+    while(p->next && strcmp(p->next->name,name) != 0) {
+        p = p->next;
+    }
+    if(strcmp(p->next->name,name) == 0)
+        return p;
+    else
+        perror("error search\n");
+}
+
+USER *userSerNameSearch(USER *userHead,char serName[]){
+    USER *p = userHead;
+    while(p->next && strcmp(p->next->serName,serName) != 0){
+        p = p->next;
+    }
+    if(strcmp(p->next->serName,serName) == 0)
+        return p;
+    else
+        perror("error search\n");
+}
+
+void userSearch(USER *userHead){
+    printf("Please choose the way:\n1.name\n2.number\n");
+    int choose;
+    char name[20] = {0};
+    int num;
+    USER *prePosition,*curPosition;
+    scanf("%d",&choose);
+    if(choose == 1){
+        printf("Please input the name:");
+        scanf("%s",name);
+        prePosition = userNameSearch(userHead, name);
+        curPosition = prePosition->next;
+    }
+    else{
+        printf("Please input the number:");
+        scanf("%d",&num);
+        prePosition = userNumSearch(userHead, num);
+        curPosition = prePosition->next;
+    }
+    printf("%d %s %s\n",curPosition->num,curPosition->name,curPosition->serName);
+}
+
+void userNodeDelete(USER *pre){
+    USER *cur = pre->next;
+    pre->next = cur->next;
+    free(cur);
+}
+
+void userNameFileDel(FILE *fp,FILE *rp,USER *pre){
+    USER *chan, *cur = pre->next;
+    chan = (USER *)malloc(sizeof(USER));
+    while(fscanf(fp,"%d%s%s",&chan->num,chan->name,chan->serName) != EOF){
+                       if(strcmp(cur->name,chan->name) == 0)
+                           continue;
+                       else
+                           fprintf(rp,"%d\t%s\t%s\n",chan->num,chan->name,chan->serName);
+    }
+}
+
+void userNumFileDel(FILE *fp,FILE *rp,USER *pre){
+    USER *chan, *cur = pre->next;
+    chan = (USER *)malloc(sizeof(USER));
+    while(fscanf(fp,"%d%s%s",&chan->num,chan->name,chan->serName) != EOF){
+                       if(cur->num == chan->num)
+                           continue;
+                       else
+                           fprintf(rp,"%d\t%s\t%s\n",chan->num,chan->name,chan->serName);
+    }
+}
+
+void userFileDelete(USER *userHead,char name[],int num,int choose){
+    FILE *fp = fopen("user.txt","r");
+    FILE *rp = fopen("temp.txt","w");
+    USER *position;
+    int err;
+    switch(choose){
+        case 1:
+            position = userNameSearch(userHead,name);
+            userNameFileDel(fp,rp,position);
+            break;
+        default:
+            position = userNumSearch(userHead,num);
+            userNumFileDel(fp,rp,position);
+    }
+    userNodeDelete(position);
+    fclose(fp);
+    fclose(rp);
+    err = remove("user.txt");
+    if(err == 0)
+        printf("Delete successfully\n");
+    else
+        perror("error delete\n");
+    rename("temp.txt","user.txt");
+}
+
+void userDelete(USER *userHead){
+    int choose;
+    char name[20];
+    int num;
+    printf("Please choose the way:\n1.name\n2.number\n");
+    scanf("%d",&choose);
+    switch(choose){
+        case 1:
+            printf("Please input the name to delete:");
+            scanf("%s",name);
+            break;
+        default:
+            printf("Please input the number to delete:");
+            scanf("%d",&num);
+    }
+    userFileDelete(userHead,name,num,choose);
+    printf("The delete had been finished\n");
+}
+
+void userNumModify(int num, USER **userHead){
+    USER *position = userNumSearch(*userHead,num)->next;
+    USER chan;
+    FILE *fp = fopen("user.txt","r+");
+    int newNum,lenSerName;    
+    lenSerName = strlen(position->serName);
+    printf("Please input the new number:");
+    scanf("%d",&newNum);
+    while(fscanf(fp,"%d%s%s",&chan.num,chan.name,chan.serName) != EOF){
+        if(position->num == chan.num){
+            fseek(fp,-(20 + lenSerName),SEEK_CUR);
+            fprintf(fp,"%d",newNum);
+            break;
+        }
+    }
+    position->num = newNum;
+    printf("%d %s %s",position->num,position->name,position->serName);
+    fclose(fp);
+}
+
+void userNameModify(char name[], USER **userHead){
+    USER *position = userNameSearch(*userHead,name)->next;
+    USER chan;
+    FILE *fp = fopen("user.txt","r+");
+    char newName[20] = {0};
+    printf("Please input the new name:");
+    scanf("%s",newName);
+    int lenSerName = strlen(position->serName);
+    while(fscanf(fp,"%d%s%s",&chan.num,chan.name,chan.serName) != EOF){
+        if(strcmp(position->name,chan.name) == 0){
+            fseek(fp,-(10 + lenSerName),SEEK_CUR);
+            fprintf(fp,"%s",newName);
+            break;
+        }
+    }
+    strcpy(position->name,newName);
+    printf("%d %s %s",position->num,position->name,position->serName);
+    fclose(fp);
+}
+
+void userSerNameMod(char serName[],USER **userHead){
+    USER *position = userSerNameSearch(*userHead,serName)->next;
+    USER chan;
+    FILE *fp = fopen("user.txt","r+");
+    char newSerName[20] = {0};
+    int lenSerName = strlen(position->serName);
+    printf("Please input the new service name:");
+    scanf("%s",newSerName);
+    while(fscanf(fp,"%d%s%s",&chan.num,chan.name,chan.serName) != EOF){
+        if(strcmp(position->serName,chan.serName) == 0)
+            fseek(fp,-lenSerName,SEEK_CUR);
+            fprintf(fp,"%s",newSerName);
+            break;
+    }
+    strcpy(position->serName,newSerName);
+    printf("%d %s %s",position->num,position->name,position->serName);
+    fclose(fp);
+}
+
+USER *userModify(USER *userHead){
+    int choose;
+    char name[20] = {0},serviceName[20] = {0};
+    int num;
+    printf("Please choose the way:\n1.number\n2.name\n3.service name\n");
+    scanf("%d",&choose);
+    switch(choose){
+        case 1:
+            printf("Please input the num:"); 
+            scanf("%d",&num);
+            userNumModify(num,&userHead);
+            break;
+        case 2:
+            printf("Please input the name:");
+            scanf("%s",name);
+            userNameModify(name,&userHead);
+            break;
+        default:
+            printf("Please input the service name:");
+            scanf("%s",serviceName);
+            userSerNameMod(serviceName,&userHead);
+    }
+    return userHead;
+}
+
+USER *userManage(USER *userHead){
+    int choose;
+    userHead = userLoad(userHead);
+    printf("Please input your choice:\n1:Create\n2:Delete\n3.Search\n4.Modify\n");
+    scanf("%d",&choose);
+    switch(choose){
+        case 1: 
+            userHead = userCreate(userHead);
+            break;
+        case 2: 
+            userDelete(userHead);
+            break;
+        case 3:
+            userSearch(userHead);
+            break;
+        default: 
+            userHead = userModify(userHead);
+    }
+    return userHead;
+}
+
+int main(void){
+    USER *userHead;
+    userManage(userHead);
+}
