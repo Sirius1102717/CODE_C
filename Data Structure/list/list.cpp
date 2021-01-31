@@ -3,7 +3,7 @@
  * @Date: 2020-11-19 16:25:35
  * @Note: test
  * @Description: For learning
- * @LastEditTime: 2021-01-13 00:03:05
+ * @LastEditTime: 2021-01-31 11:54:52
  */
 #include<stdio.h>
 #include<stdlib.h>
@@ -29,17 +29,17 @@ NODE* create(float* maxNo, float* as, float* al, float* ac)
     p = (NODE*)malloc(sizeof(NODE));
     if (p)
     {
-        printf("please input your name:")
+        printf("please input your name:");
             scanf("%s", p->data.name);
-        printf("please input your selected score:")
+        printf("please input your selected score:");
             scanf("%d", &p->data.selected);
         *as += p->data.selected;
         printf("please input your lab score");
         scanf("%d", &p->data.lab);
         *al += p->data.lab;
-        printf("please input your course score")
+        printf("please input your course score");
             scanf("%d", &p->data.course);
-        *ac += p->data.course;\
+        *ac += p->data.course;
             p->data.no = *maxNo;
         (*maxNo)++;
         p->data.total = p->data.course + p->data.lab + p->data.course;
