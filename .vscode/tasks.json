@@ -6,6 +6,9 @@
             "command": "/usr/bin/clang++-11",
             "args": [
                 "-fno-limit-debug-info",
+                "-Wall", // 开启额外警告
+                // "-static-libgcc", // 静态链接 
+                "-fcolor-diagnostics",
                 "-g",
                 "${file}",
                 "-o",
