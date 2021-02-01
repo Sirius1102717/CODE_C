@@ -2,9 +2,10 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "C/C++: g++ build active file",
-            "command": "/usr/bin/g++",
+            "label": "C/C++: clang++-11 build active file",
+            "command": "/usr/bin/clang++-11",
             "args": [
+                "-fno-limit-debug-info",
                 "-g",
                 "${file}",
                 "-o",
