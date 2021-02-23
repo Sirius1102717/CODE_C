@@ -1,5 +1,4 @@
 #define _CRT_SECURE_NO_WARNINGS // VS忽略警告，其它应该不需要
-
 #include <malloc.h>
 #include <stdio.h>
 #include <string.h>
