@@ -19,11 +19,12 @@ void swap(void* a, void* b, int size) {
     void* c = new(void);
     memcpy(c, a, size), memcpy(a, b, size), memcpy(b, c, size), delete(c);
 }
-typedef enum status { R, E } Status;
 
 typedef size_t type;
 #define THREAD_NUM 5
 type thread_num = 0;
+
+typedef enum status { R, E } Status;
 
 typedef struct pcb {
     char name[10];
@@ -46,15 +47,17 @@ void init(PCB** p) {
 
 void push(PCB** rear, PCB* p) {
     (*rear)->next = p;
-    p->next = NULL;
     *rear = p;
 }
 
 PCB* front(PCB** head) {
     PCB* p = *head;
-    *head = (*head)->next;
-    p->next = NULL;
-    return p;
+    if(p) {
+        *head = (*head)->next;
+        p->next = NULL;
+        return p;
+    } else
+        return NULL;
 }
 
 char* get_status(Status status) {
@@ -66,17 +69,14 @@ char* get_status(Status status) {
 
 void print(PCB* p, PCB* f_p) {
     while(p) {
-        printf(
-            "name:%-*scputime:%-4ldneedtime:%-4ldruntime:%-4ld\tstatus:%-*s\n",
-            4, p->name, cpu_time, p->need_time, p->run_time, 4,
-            get_status(p->status));
+        printf("name:%-*sneedtime:%-4ldruntime:%-4ld\tstatus:%-*s\n", 4,
+               p->name, p->need_time, p->run_time, 4, get_status(p->status));
         p = p->next;
     }
     while(f_p) {
-        printf(
-            "name:%-*scputime:%-4ldneedtime:%-4ldruntime:%-4ld\tstatus:%-*s\n",
-            4, f_p->name, cpu_time, f_p->need_time, f_p->run_time, 4,
-            get_status(f_p->status));
+        printf("name:%-*sneedtime:%-4ldruntime:%-4ld\tstatus:%-*s\n", 4,
+               f_p->name, f_p->need_time, f_p->run_time, 4,
+               get_status(f_p->status));
         f_p = f_p->next;
     }
     puts("");
@@ -88,19 +88,20 @@ void run(PCB* head, PCB* rear, PCB* f_head, PCB* f_rear) {
         print(head, f_head->next);
         cpu_time++;
         p = front(&head);
-        if(p->run_time < p->need_time) {
+        if(p->need_time > 0) {
             p->run_time++;
-            if(p->run_time == p->need_time) {
+            p->need_time--;
+            if(0 == p->need_time) {
                 p->status = E;
                 push(&f_rear, p);
                 thread_num++;
-            } else
-                push(&rear, p);
-            // } else {
-            // if(head)
-            // head = head->next;
-            // else
-            // break;
+            } else {
+
+                if(head)
+                    push(&rear, p);
+                else
+                    head = p;
+            }
         }
     }
     print(head, f_head->next);
@@ -112,7 +113,8 @@ void input() {
     time_t need_time;
     init(&begin);
     end = begin;
-    while(~scanf("%s%ld", name, &need_time)) {
+    for(size_t i = 0; i < 5; i++) {
+        scanf("%s%ld", name, &need_time);
         PCB* p;
         init(&p);
         strcpy(p->name, name);
@@ -127,7 +129,7 @@ int main(int argc, char* argv[]) {
     input();
     init(&f_begin);
     f_end = f_begin;
-    printf("name\t cputime \t needtime \t\t runtime \t\t status\n");
+    printf("name\t needtime \t\t runtime \t\t status\n");
     run(begin->next, end, f_begin, f_end);
 
     return 0;

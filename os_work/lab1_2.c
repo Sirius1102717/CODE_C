@@ -12,13 +12,19 @@
 
 #define EMPTY -1;
 
-#define SLEEP_TIME 1
+#define SLEEP_TIME 100000
+
+#define SEM_VALUE 10
 
 #define MAX_NUM 100
 
 typedef __int64_t type;
+
+pthread_mutex_t mutex;
+type num = 0;
+
 typedef struct queue {
-    type data[SIZE];
+    type buffer[SIZE];
     type begin;
     type end;
 } Queue;
@@ -29,9 +35,6 @@ struct data {
     Queue q;
 };
 
-pthread_mutex_t mutex;
-
-type num = 0;
 
 struct data sem;
 
@@ -52,9 +55,9 @@ bool is_full(Queue* q) {
 
 type peek(Queue* q) {
 
-    if(q) {
+    if(q && !is_empty(q)) {
         q->begin = (q->begin + 1) % SIZE;
-        return q->data[q->begin];
+        return q->buffer[q->begin];
     }
     return EMPTY;
 }
@@ -62,7 +65,7 @@ type peek(Queue* q) {
 bool push(Queue* q, int x) {
     if(q && !is_full(q)) {
         q->end = (q->end + 1) % SIZE;
-        q->data[q->end] = x;
+        q->buffer[q->end] = x;
         return true;
     }
     return false;
@@ -70,7 +73,8 @@ bool push(Queue* q, int x) {
 
 void* producer() {
     for(;;) {
-        sleep(SLEEP_TIME);
+        int time = rand() % 10 + 1;
+        usleep(SLEEP_TIME * time);
         sem_wait(&sem.empty);
         pthread_mutex_lock(&mutex);
         num++;
@@ -80,9 +84,11 @@ void* producer() {
         sem_post(&sem.full);
     }
 }
+
 void* consumer() {
     for(;;) {
-        sleep(SLEEP_TIME);
+        int time = rand() % 10 + 1;
+        usleep(SLEEP_TIME * time);
         sem_wait(&sem.full);
         pthread_mutex_lock(&mutex);
         num--;
@@ -92,23 +98,40 @@ void* consumer() {
         sem_post(&sem.empty);
     }
 }
+void* do_operation() {
+    pthread_t producer_id;
+    pthread_t consumer_id;
+    pthread_create(&producer_id, NULL, producer, NULL);
+    pthread_create(&consumer_id, NULL, consumer, NULL);
+
+    pthread_join(consumer_id, NULL);
+    // pthread_join(producer_id, NULL);
+    // sleep(SLEEP_TIME * 100);
+    // return NULL;
+}
 
 int main() {
     srand(time(NULL));
-    sem_init(&sem.empty, 0, 10);
+    sem_init(&sem.empty, 0, SEM_VALUE);
     sem_init(&sem.full, 0, 0);
 
     pthread_mutex_init(&mutex, NULL);
 
     init(&sem.q);
 
-    pthread_t producer_id;
-    pthread_t consumer_id;
+    // pthread_t producer_id;
+    // pthread_t consumer_id;
 
-    pthread_create(&producer_id, NULL, producer, NULL);
-    pthread_create(&consumer_id, NULL, consumer, NULL);
+    pthread_t operation;
 
-    pthread_join(consumer_id, NULL);
+    pthread_create(&operation, NULL, do_operation, NULL);
+
+    // pthread_create(&producer_id, NULL, producer, NULL);
+    // pthread_create(&consumer_id, NULL, consumer, NULL);
+
+    // pthread_join(consumer_id, NULL);
+    // pthread_join(producer_id, NULL);
+    pthread_join(operation, NULL);
     sem_destroy(&sem.empty);
     sem_destroy(&sem.full);
     pthread_mutex_destroy(&mutex);

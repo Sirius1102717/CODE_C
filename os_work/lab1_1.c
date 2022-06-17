@@ -23,7 +23,6 @@ semaphore mutex = 1, producer_mutex = 1;
 size_t empty = BUFFER_SIZE, full = 0;
 
 void* producer() {
-
     for(;;) {
         while(producer_mutex <= 0) {}
 
