@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "iosfwd": "c",
+        "iostream": "c"
+    },
+    "clangd.restartAfterCrash": true,
+}
