@@ -1,79 +1,103 @@
-name	 needtime 		 runtime 		 status
-name:Q1  needtime:2   runtime:0   	status:ready
-name:Q2  needtime:3   runtime:0   	status:ready
-name:Q3  needtime:1   runtime:0   	status:ready
-name:Q4  needtime:2   runtime:0   	status:ready
-name:Q5  needtime:4   runtime:0   	status:ready
-
-name:Q2  needtime:3   runtime:0   	status:ready
-name:Q3  needtime:1   runtime:0   	status:ready
-name:Q4  needtime:2   runtime:0   	status:ready
-name:Q5  needtime:4   runtime:0   	status:ready
-name:Q1  needtime:1   runtime:1   	status:ready
-
-name:Q3  needtime:1   runtime:0   	status:ready
-name:Q4  needtime:2   runtime:0   	status:ready
-name:Q5  needtime:4   runtime:0   	status:ready
-name:Q1  needtime:1   runtime:1   	status:ready
-name:Q2  needtime:2   runtime:1   	status:ready
-
-name:Q4  needtime:2   runtime:0   	status:ready
-name:Q5  needtime:4   runtime:0   	status:ready
-name:Q1  needtime:1   runtime:1   	status:ready
-name:Q2  needtime:2   runtime:1   	status:ready
-name:Q3  needtime:0   runtime:1   	status:finish
-
-name:Q5  needtime:4   runtime:0   	status:ready
-name:Q1  needtime:1   runtime:1   	status:ready
-name:Q2  needtime:2   runtime:1   	status:ready
-name:Q4  needtime:1   runtime:1   	status:ready
-name:Q3  needtime:0   runtime:1   	status:finish
-
-name:Q1  needtime:1   runtime:1   	status:ready
-name:Q2  needtime:2   runtime:1   	status:ready
-name:Q4  needtime:1   runtime:1   	status:ready
-name:Q5  needtime:3   runtime:1   	status:ready
-name:Q3  needtime:0   runtime:1   	status:finish
-
-name:Q2  needtime:2   runtime:1   	status:ready
-name:Q4  needtime:1   runtime:1   	status:ready
-name:Q5  needtime:3   runtime:1   	status:ready
-name:Q3  needtime:0   runtime:1   	status:finish
-name:Q1  needtime:0   runtime:2   	status:finish
-
-name:Q4  needtime:1   runtime:1   	status:ready
-name:Q5  needtime:3   runtime:1   	status:ready
-name:Q2  needtime:1   runtime:2   	status:ready
-name:Q3  needtime:0   runtime:1   	status:finish
-name:Q1  needtime:0   runtime:2   	status:finish
-
-name:Q5  needtime:3   runtime:1   	status:ready
-name:Q2  needtime:1   runtime:2   	status:ready
-name:Q3  needtime:0   runtime:1   	status:finish
-name:Q1  needtime:0   runtime:2   	status:finish
-name:Q4  needtime:0   runtime:2   	status:finish
-
-name:Q2  needtime:1   runtime:2   	status:ready
-name:Q5  needtime:2   runtime:2   	status:ready
-name:Q3  needtime:0   runtime:1   	status:finish
-name:Q1  needtime:0   runtime:2   	status:finish
-name:Q4  needtime:0   runtime:2   	status:finish
-
-name:Q5  needtime:2   runtime:2   	status:ready
-name:Q3  needtime:0   runtime:1   	status:finish
-name:Q1  needtime:0   runtime:2   	status:finish
-name:Q4  needtime:0   runtime:2   	status:finish
-name:Q2  needtime:0   runtime:3   	status:finish
-
-name:Q5  needtime:1   runtime:3   	status:ready
-name:Q3  needtime:0   runtime:1   	status:finish
-name:Q1  needtime:0   runtime:2   	status:finish
-name:Q4  needtime:0   runtime:2   	status:finish
-name:Q2  needtime:0   runtime:3   	status:finish
-
-name:Q3  needtime:0   runtime:1   	status:finish
-name:Q1  needtime:0   runtime:2   	status:finish
-name:Q4  needtime:0   runtime:2   	status:finish
-name:Q2  needtime:0   runtime:3   	status:finish
-name:Q5  needtime:0   runtime:4   	status:finish
-
+发工资0
+发工资1
+存款
+计算利息0
+发工资2
+取款
+发工资3
+转账
+计算利息1
+发工资4
+计算利息2
+发工资5
+计算利息3
+发工资6
+发工资7
+计算利息4
+发工资8
+计算利息5
+发工资9
+计算利息6
+发工资10
+计算利息7
+发工资11
+计算利息8
+发工资12
+计算利息9
+发工资13
+计算利息10
+发工资14
+计算利息11
+发工资15
+计算利息12
+发工资16
+计算利息13
+发工资17
+计算利息14
+发工资18
+计算利息15
+发工资19
+计算利息16
+发工资20
+计算利息17
+发工资21
+计算利息18
+发工资22
+计算利息19
+发工资23
+计算利息20
+发工资24
+计算利息21
+发工资25
+计算利息22
+发工资26
+计算利息23
+发工资27
+计算利息24
+发工资28
+计算利息25
+发工资29
+计算利息26
+发工资30
+计算利息27
+发工资31
+计算利息28
+发工资32
+计算利息29
+发工资33
+计算利息30
+发工资34
+计算利息31
+发工资35
+计算利息32
+发工资36
+计算利息33
+发工资37
+计算利息34
+发工资38
+计算利息35
+发工资39
+计算利息36
+发工资40
+计算利息37
+发工资41
+计算利息38
+发工资42
+计算利息39
+发工资43
+计算利息40
+发工资44
+计算利息41
+发工资45
+计算利息42
+发工资46
+计算利息43
+发工资47
+计算利息44
+发工资48
+计算利息45
+发工资49
+计算利息46
+计算利息47
+计算利息48
+计算利息49
