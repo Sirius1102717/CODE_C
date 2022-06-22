@@ -1,4 +1,4 @@
-output.txt
-input.txt
+*.txt
+.txt
 .vscode
 /build
