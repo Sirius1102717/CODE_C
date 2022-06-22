@@ -6,6 +6,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/cdefs.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <sys/types.h>
 #include <unistd.h>
 #define min(a, b) (a) < (b) ? (a) : (b)
 #define max(a, b) (a) > (b) ? (a) : (b)
@@ -87,16 +91,18 @@ void* tran() {
 int main(int argc, char* argv[]) {
     freopen("/home/sirius/CODE_C/input.txt", "r", stdin);
     freopen("/home/sirius/CODE_C/output.txt", "w", stdout);
-    pthread_t p_pay, p_dep, p_cal, p_with, p_tran;
-    pthread_mutex_init(&mutex, NULL);
-    pthread_cond_init(&cond, NULL);
-    pthread_create(&p_pay, NULL, pay, NULL);
-    pthread_create(&p_cal, NULL, cal, NULL);
-    pthread_create(&p_dep, NULL, dep, NULL);
-    pthread_create(&p_with, NULL, with, NULL);
-    pthread_create(&p_tran, NULL, tran, NULL);
+    // fork();
+    // pthread_t p_pay, p_dep, p_cal, p_with, p_tran;
+    // pthread_mutex_init(&mutex, NULL);
+    // pthread_cond_init(&cond, NULL);
+    // pthread_create(&p_pay, NULL, pay, NULL);
+    // pthread_create(&p_cal, NULL, cal, NULL);
+    // pthread_create(&p_dep, NULL, dep, NULL);
+    // pthread_create(&p_with, NULL, with, NULL);
+    // pthread_create(&p_tran, NULL, tran, NULL);
     // pthread_join(p_pay, NULL);
-    sleep(5);
+    // sleep(5);
+    key_t key = 0;
 
     return 0;
 }
