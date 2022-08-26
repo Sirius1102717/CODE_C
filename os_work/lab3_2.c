@@ -21,9 +21,11 @@ PageTable cur_page_tables[PAGE_SIZE];
 size_t cur_page_tables_length;
 
 size_t P[PAGE_SIZE];
-size_t m = 0;
+size_t pm = 0;
 size_t k = 0;
 size_t old_page_number;
+size_t D[PAGE_SIZE];
+size_t dm = 0;
 
 size_t get_absolute_address(size_t block_number, size_t lun) {
     return block_number * BLOCK_SIZE + lun;
@@ -43,20 +45,26 @@ typedef struct operation {
 
 size_t fifo(PageTable* page_table) {
     size_t old_page_number = P[k];
-    page_table->block_number = get_page_table(old_page_number)->block_number;
+    PageTable* old_page_table = get_page_table(old_page_number);
+    page_table->block_number = old_page_table->block_number;
+    old_page_table->sign = 0;
+    page_table->sign = 1;
     P[k] = page_table->page_number;
-    k = (k + 1) % m;
+    k = (k + 1) % pm;
+    if(!old_page_table->modify_sign) {
+        D[dm++] = old_page_number;
+        old_page_table->modify_sign = 1;
+    }
     return old_page_number;
 }
 void run(Operation* operation) {
     PageTable* page_table = get_page_table(operation->page_number);
     if(page_table->sign) {
-        P[m++] = page_table->page_number;
         printf("%zu\n", get_absolute_address(page_table->block_number, operation->lun));
     } else {
         size_t old_page_number = fifo(page_table);
         page_table = get_page_table(operation->page_number);
-        printf("%zu\t\t%zu\n", get_absolute_address(page_table->block_number, operation->lun),
+        printf("%-4zu\t%-4zu\n", get_absolute_address(page_table->block_number, operation->lun),
                old_page_number);
     }
 }
@@ -78,6 +86,9 @@ void init_page_tables() {
     cur_page_tables[5] = p5;
     cur_page_tables[6] = p6;
     cur_page_tables_length = 7;
+
+    for(size_t i = 0; i < cur_page_tables_length; i++)
+        if(cur_page_tables[i].sign) P[pm++] = cur_page_tables[i].page_number;
 }
 
 int main(int argc, char* argv[]) {
@@ -89,7 +100,7 @@ int main(int argc, char* argv[]) {
     init_page_tables();
     printf("页号\t单元号\t绝对地址\t原页号\n");
     while(~scanf("%s%zd%zd", name, &page_number, &lun)) {
-        printf("%zu\t\t%03zu\t\t", page_number, lun);
+        printf("%-4zu\t%04zu\t", page_number, lun);
         operation.page_number = page_number, operation.lun = lun;
         run(&operation);
     }

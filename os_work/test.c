@@ -89,8 +89,8 @@ void* tran() {
 }
 
 int main(int argc, char* argv[]) {
-    freopen("/home/sirius/CODE_C/input.txt", "r", stdin);
-    freopen("/home/sirius/CODE_C/output.txt", "w", stdout);
+    // freopen("/home/sirius/CODE_C/input.txt", "r", stdin);
+    // freopen("/home/sirius/CODE_C/output.txt", "w", stdout);
     // fork();
     // pthread_t p_pay, p_dep, p_cal, p_with, p_tran;
     // pthread_mutex_init(&mutex, NULL);
@@ -102,7 +102,8 @@ int main(int argc, char* argv[]) {
     // pthread_create(&p_tran, NULL, tran, NULL);
     // pthread_join(p_pay, NULL);
     // sleep(5);
-    key_t key = 0;
+    printf("%lu\n", sizeof(bool));
+    printf("%lu\n", sizeof(int));
 
     return 0;
 }

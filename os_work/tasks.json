@@ -22,7 +22,7 @@
             "options": {
                 "cwd": "${fileDirname}"
             },
-            "poblemMatcher": [
+            "problemMatcher": [
                 "$gcc"
             ],
             "group": {
