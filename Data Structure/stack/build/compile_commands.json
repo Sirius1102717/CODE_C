@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/arendelle/CODE_C/Data Structure/stack/build",
+  "command": "/usr/bin/c++  -I /home/arendelle/CODE_C/libs    -o CMakeFiles/calcalator.dir/calcalator.cpp.o -c \"/home/arendelle/CODE_C/Data Structure/stack/calcalator.cpp\"",
+  "file": "/home/arendelle/CODE_C/Data Structure/stack/calcalator.cpp"
+}
+]

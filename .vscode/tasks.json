@@ -1,6 +1,7 @@
 {
     "tasks": [
         {
+<<<<<<< HEAD
             "type": "shell",
             "label": "C/C++: clang build active file",
             "command": "/usr/local/bin/clang",
@@ -23,6 +24,25 @@
                 "cwd": "${fileDirname}"
             },
             "poblemMatcher": [
+=======
+            "type": "cppbuild",
+            "label": "C/C++: clang++-11 build active file",
+            "command": "/usr/bin/clang++-11",
+            "args": [
+                "-fno-limit-debug-info",
+                "-Wall", // 开启额外警告
+                // "-static-libgcc", // 静态链接 
+                "-fcolor-diagnostics",
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+>>>>>>> a0993dedb2bd25d744aa3ac001605921a2a09003
                 "$gcc"
             ],
             "group": {
